@@ -1,6 +1,6 @@
 {
-  "name": "ai-chatbot",
-  "version": "0.0.0",
+  "name": "nodejs-sapphire-ai-chatbot",
+  "version": "0.1.0",
   "private": true,
   "scripts": {
     "start": "node index.js"
