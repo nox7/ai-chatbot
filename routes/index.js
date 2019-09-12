@@ -2,7 +2,7 @@ let express = require('express');
 let router = express.Router();
 const Brain = require("../lib/brain.js");
 
-const newHuman = new Brain();
+const thisHuman = new Brain();
 
 setInterval(() => {
 	// Every second, run a general brain "tick" to
@@ -10,6 +10,11 @@ setInterval(() => {
 	// and adjust/modify them based on recent events or feelings
 	// or "think" by attempting to discover connections between known
 	// facts or words
+
+	// When emotions are high, this process should also create more receptors,
+	// as this is also part of "maturing"
+	// When this robot experiences a lot of emotions that cause a lot of receptors,
+	// sometimes this can result in desensitization in some people (robots)
 }, 1000);
 
 /* GET home page. */
@@ -22,7 +27,15 @@ router.post('/api/process', function(req, res, next) {
 
 	// TODO Eventually distinguish between direct, indirect, and inanimate speakers
 	// Use separate functions for that
-	newHuman.hearNoiseFromAnimate_Direct(req.fields.message, req.fields.speakerMood);
+	thisHuman.hearNoiseFromAnimate_Direct(req.fields.message, req.fields['speaker-mood'], () => {
+		// Done processing the information, what now?
+		res.json({
+			hormoneA:thisHuman.hormoneA,
+			hormoneB:thisHuman.hormoneB,
+			hormoneC:thisHuman.hormoneC,
+			hormoneX:thisHuman.hormoneX
+		});
+	});
 	console.log("---------- END ----------");
 });
 
