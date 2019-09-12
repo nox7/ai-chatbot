@@ -1,6 +1,16 @@
 let express = require('express');
 let router = express.Router();
-const LanguageProcessor = require("../lib/language-processor.js");
+const Brain = require("../lib/brain.js");
+
+const newHuman = new Brain();
+
+setInterval(() => {
+	// Every second, run a general brain "tick" to
+	// review memories and current emotions/hormones
+	// and adjust/modify them based on recent events or feelings
+	// or "think" by attempting to discover connections between known
+	// facts or words
+}, 1000);
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -9,7 +19,10 @@ router.get('/', function(req, res, next) {
 
 router.post('/api/process', function(req, res, next) {
 	console.log("---------- Processing ----------");
-	LanguageProcessor.process(req.fields.message);
+
+	// TODO Eventually distinguish between direct, indirect, and inanimate speakers
+	// Use separate functions for that
+	newHuman.hearNoiseFromAnimate_Direct(req.fields.message, req.fields.speakerMood);
 	console.log("---------- END ----------");
 });
 
