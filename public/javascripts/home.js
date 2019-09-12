@@ -21,7 +21,7 @@
 
 		if (sendingMessage.length > 0){
 			let fData = new FormData(form);
-			
+
 			writeToChatLog(sendingMessage);
 			messageInput.value = "";
 
@@ -31,7 +31,10 @@
 				body:fData,
 			}).then(function(response){
 				response.json().then(function(data){
-
+					document.getElementById("hormone-a-level").innerText = data.hormoneA;
+					document.getElementById("hormone-b-level").innerText = data.hormoneB;
+					document.getElementById("hormone-c-level").innerText = data.hormoneC;
+					document.getElementById("hormone-x-level").innerText = data.hormoneX;
 				});
 			});
 		}
