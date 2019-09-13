@@ -15,6 +15,9 @@ setInterval(() => {
 	// as this is also part of "maturing"
 	// When this robot experiences a lot of emotions that cause a lot of receptors,
 	// sometimes this can result in desensitization in some people (robots)
+
+	// Use artifical parts of body to "consume" hormones
+	// When those parts desire that hormone, the bot acts accordinly
 }, 1000);
 
 thisHuman.onHormoneChanged((whichHormone) => {
