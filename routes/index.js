@@ -17,6 +17,12 @@ setInterval(() => {
 	// sometimes this can result in desensitization in some people (robots)
 }, 1000);
 
+thisHuman.onHormoneChanged((whichHormone) => {
+	if (whichHormone === "hormoneA"){
+		console.log("Hormone A changed");
+	}
+});
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
 	res.render('index', { title: 'Express' });
