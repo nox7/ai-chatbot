@@ -1,6 +1,7 @@
 let express = require('express');
 let router = express.Router();
 const Brain = require("../lib/brain.js");
+const MathLib = require("../lib/math-lib.js");
 
 const thisHuman = new Brain();
 
@@ -17,8 +18,21 @@ setInterval(() => {
 	// sometimes this can result in desensitization in some people (robots)
 
 	// Use artifical parts of body to "consume" hormones
-	// When those parts desire that hormone, the bot acts accordinly
-}, 1000);
+	// When those parts desire that hormone, the bot acts accordingly
+
+	// If no speech within 30s - 60s, then begin hormonal consumption (equilibrium attempt)
+	if (thisHuman.lastDirectSpeechInteraction > 0){
+		// console.log(thisHuman.lastDirectSpeechInteraction);
+		if (thisHuman.hormoneA > 0 || thisHuman.hormoneB > 0 || thisHuman.hormoneC > 0 || thisHuman.hormoneX > 0){
+			//let chosenTimeAgoComparisonThreshold = (new Date()).getTime() - MathLib.getRandomNumber(1000,5000);
+			let chosenTimeAgoComparisonThreshold = (new Date()).getTime() - MathLib.getRandomNumber(30000, 60000);
+			if (thisHuman.lastDirectSpeechInteraction <= chosenTimeAgoComparisonThreshold && thisHuman.lastHormoneConsumption <= chosenTimeAgoComparisonThreshold){
+				console.log("Beginning equilibrium attempt by consuming hormones");
+				thisHuman.consumeHormones();
+			}
+		}
+	}
+}, 10);
 
 thisHuman.onHormoneChanged((whichHormone) => {
 	if (whichHormone === "hormoneA"){
