@@ -33,12 +33,6 @@ setInterval(() => {
 	}
 }, 10);
 
-thisHuman.onHormoneChanged((whichHormone) => {
-	if (whichHormone === "hormoneA"){
-		console.log("Hormone A changed");
-	}
-});
-
 class CustomSocketServer{
 	constructor(httpServer){
 		let wsServer = new WebSocketServer({
@@ -50,19 +44,16 @@ class CustomSocketServer{
 
 		wsServer.on("connect", (connection) => {
 			console.log("WebSocket connection accepted");
-			connection.on("message", (message) => {
-				console.log("Received socket message");
-				CustomSocketServer.messageReceived(connection, message);
-			});
+
+			CustomSocketServer.connectionAccepted(connection);
 
 			connection.on("close", (reasonCode, description) => {
 				console.log("WebSocket close received. Description: " + description);
 			});
+
 		});
 
 		wsServer.on("request", (request) => {
-
-			console.log("Received socket request for connection");
 
 			// Reject bad origins
 			if (!CustomSocketServer.isOriginAllowed(request.origin)){
@@ -77,6 +68,24 @@ class CustomSocketServer{
 	static isOriginAllowed(origin){
 		// Check if the origin can use this WS server
 		return true;
+	}
+
+	static connectionAccepted(connection){
+
+		connection.on("message", (message) => {
+			CustomSocketServer.messageReceived(connection, message);
+		});
+
+		thisHuman.onHormonesUpdated(() => {
+			console.log("WebSocket server sending hormone updates");
+			let shipmentBackToClient = {
+				hormoneA:thisHuman.hormoneA,
+				hormoneB:thisHuman.hormoneB,
+				hormoneC:thisHuman.hormoneC,
+				hormoneX:thisHuman.hormoneX
+			}
+			connection.sendUTF(JSON.stringify(shipmentBackToClient));
+		});
 	}
 
 	/**
@@ -97,14 +106,6 @@ class CustomSocketServer{
 				// Use separate functions for that
 				thisHuman.hearNoiseFromAnimate_Direct(speech, speakerMood, () => {
 					// Done processing the information, what now?
-					let shipmentBackToClient = {
-						hormoneA:thisHuman.hormoneA,
-						hormoneB:thisHuman.hormoneB,
-						hormoneC:thisHuman.hormoneC,
-						hormoneX:thisHuman.hormoneX
-					};
-					console.log("Sending back data");
-					connection.sendUTF(JSON.stringify(shipmentBackToClient));
 				});
 			}catch(err){
 				console.log("Failed parsing socket utf8 data to object: " + String(err));
