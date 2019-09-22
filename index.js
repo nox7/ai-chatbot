@@ -1,4 +1,6 @@
 const http = require("http");
 const app = require("./app");
+const socketServer = require("./app-websocket-server");
 
-http.createServer({}, app).listen(3000);
+let httpServer = http.createServer({}, app).listen(3000);
+new socketServer(httpServer);
