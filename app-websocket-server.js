@@ -104,7 +104,7 @@ class CustomSocketServer{
 				let speakerMood = payload.speakerMood;
 				// TODO Eventually distinguish between direct, indirect, and inanimate speakers
 				// Use separate functions for that
-				thisHuman.hearNoiseFromAnimate_Direct(speech, speakerMood, () => {
+				thisHuman.hearNoiseFromAnimate_Direct(speech, "insert speaker here", speakerMood, () => {
 					// Done processing the information, what now?
 				});
 			}catch(err){
