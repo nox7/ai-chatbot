@@ -1,8 +1,10 @@
 const WebSocketServer = require("websocket").server;
 const Brain = require("./lib/brain.js");
 const MathLib = require("./lib/math-lib.js");
+const Memory = require("./lib/memory.js");
 
 const thisHuman = new Brain();
+thisHuman.memory = new Memory();
 
 setInterval(() => {
 	// Every second, run a general brain "tick" to
