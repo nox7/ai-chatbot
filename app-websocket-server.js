@@ -21,6 +21,8 @@ setInterval(() => {
 	// Use artifical parts of body to "consume" hormones
 	// When those parts desire that hormone, the bot acts accordingly
 
+	// TODO Move this into the brain's constructor
+
 	// If no speech within 30s - 60s, then begin hormonal consumption (equilibrium attempt)
 	if (thisHuman.lastDirectSpeechInteraction > 0){
 		// console.log(thisHuman.lastDirectSpeechInteraction);
