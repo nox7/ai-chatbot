@@ -76,6 +76,12 @@ class CustomSocketServer{
 
 	static connectionAccepted(connection){
 
+		// Send the neurons from the brain
+		connection.sendUTF(JSON.stringify({
+			"event":"init",
+			"neurons":thisHuman.neurons
+		}));
+
 		connection.on("message", (message) => {
 			CustomSocketServer.messageReceived(connection, message);
 		});
