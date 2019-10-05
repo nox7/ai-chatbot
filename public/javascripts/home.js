@@ -7,6 +7,10 @@ import Renderer from "./_render.js";
 	let messageInput = document.getElementById("message-input");
 	const socket = new SocketClient();
 
+	let renderer = new Renderer();
+	renderer.renderInitialBrainMap();
+	renderer.createNeuronMesh();
+
 	function writeToChatLog(message){
 		let item = document.createElement("div");
 		let messageItem = document.createElement("span");
