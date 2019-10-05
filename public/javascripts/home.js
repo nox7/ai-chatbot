@@ -59,7 +59,7 @@ import Renderer from "./_render.js";
 
 			if (payload.event === "init"){
 				payload.neurons.forEach((neuron) => {
-					renderer.createNeuronMesh({x:neuron.x, y:neuron.y, z:neuron.z}, neuron.label);
+					renderer.createNeuronMesh({x:neuron.x, y:neuron.y, z:neuron.z}, neuron.label, neuron.dendrites);
 				});
 			}
 

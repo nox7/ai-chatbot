@@ -68,9 +68,10 @@ class Renderer{
 	*
 	* @param {object} vec3Position x,y,z properties
 	* @param {string|undefined} neuronLabel If the neuron has a label, it is set
+	* @param {object[]|undefined} dendrites Set of dendrites belonging to the neuron, if any
 	* @return {}
 	*/
-	createNeuronMesh(vec3Position, neuronLabel){
+	createNeuronMesh(vec3Position, neuronLabel, dendrites){
 		const NeuronGroup = new THREE.Group();
 		this.scene.add(NeuronGroup);
 
@@ -86,6 +87,21 @@ class Renderer{
 
 		const Neuron = new THREE.Mesh(this.neuronGeometry, neuronMaterial);
 		Neuron.position.set(vec3Position.x, vec3Position.y, vec3Position.z);
+
+		if (dendrites !== undefined){
+			dendrites.forEach( (dendriteData) => {
+				let fromPosition = dendriteData.fromNeuronPosition;
+				let toPosition = dendriteData.toConnectionPosition;
+
+				let lineGeometry = new THREE.Geometry();
+				lineGeometry.vertices.push(
+					new THREE.Vector3(fromPosition.x, fromPosition.y, fromPosition.z),
+					new THREE.Vector3(toPosition.x, toPosition.y, toPosition.z),
+				)
+				const Line = new THREE.Line(lineGeometry);
+				NeuronGroup.add(Line);
+			});
+		}
 
 		NeuronGroup.add(Neuron);
 	}
