@@ -14,7 +14,7 @@ class Renderer{
 		this.scene = new THREE.Scene();
 		this.scene.background = new THREE.Color( 0x200e2b );
 
-		this.camera = new THREE.PerspectiveCamera( 35, this.container.clientWidth / this.container.clientHeight, 0.1, 500 );
+		this.camera = new THREE.PerspectiveCamera( 35, this.container.clientWidth / this.container.clientHeight, 0.1, 2500 );
 		this.camera.position.set(-5, 5, 7);
 
 		this.controls = new THREE.OrbitControls(this.camera, this.container);
@@ -52,7 +52,13 @@ class Renderer{
 	createMaterialsAndGeometries(){
 		this.neuronGeometry = new THREE.SphereBufferGeometry(3);
 		this.neuronMaterial = new THREE.MeshStandardMaterial({
-			color: 0xff3333
+			// color: 0xff3333,
+			color: 0xa2a2a2,
+			flatShading:true
+		});
+		this.languageNeuronMaterial = new THREE.MeshStandardMaterial({
+			color: 0x59b704,
+			flatShading:true
 		});
 		this.neuronMaterial.color.convertSRGBToLinear();
 	}
@@ -60,13 +66,25 @@ class Renderer{
 	/**
 	* Fetches a Neuron mesh
 	*
+	* @param {object} vec3Position x,y,z properties
+	* @param {string|undefined} neuronLabel If the neuron has a label, it is set
 	* @return {}
 	*/
-	createNeuronMesh(vec3Position){
+	createNeuronMesh(vec3Position, neuronLabel){
 		const NeuronGroup = new THREE.Group();
 		this.scene.add(NeuronGroup);
 
-		const Neuron = new THREE.Mesh(this.neuronGeometry, this.neuronMaterial);
+		let neuronMaterial;
+
+		if (neuronLabel === undefined){
+			neuronMaterial = this.neuronMaterial;
+		}else{
+			if (neuronLabel === "primordialLanguageNeuron"){
+				neuronMaterial = this.languageNeuronMaterial;
+			}
+		}
+
+		const Neuron = new THREE.Mesh(this.neuronGeometry, neuronMaterial);
 		Neuron.position.set(vec3Position.x, vec3Position.y, vec3Position.z);
 
 		NeuronGroup.add(Neuron);
