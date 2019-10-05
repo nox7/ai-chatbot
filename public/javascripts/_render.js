@@ -14,7 +14,7 @@ class Renderer{
 		this.scene = new THREE.Scene();
 		this.scene.background = new THREE.Color( 0x200e2b );
 
-		this.camera = new THREE.PerspectiveCamera( 35, this.container.clientWidth / this.container.clientHeight, 0.1, 100 );
+		this.camera = new THREE.PerspectiveCamera( 35, this.container.clientWidth / this.container.clientHeight, 0.1, 500 );
 		this.camera.position.set(-5, 5, 7);
 
 		this.controls = new THREE.OrbitControls(this.camera, this.container);
@@ -67,7 +67,7 @@ class Renderer{
 		this.scene.add(NeuronGroup);
 
 		const Neuron = new THREE.Mesh(this.neuronGeometry, this.neuronMaterial);
-		Neuron.position.set(-1,5,-2);
+		Neuron.position.set(vec3Position.x, vec3Position.y, vec3Position.z);
 
 		NeuronGroup.add(Neuron);
 	}
