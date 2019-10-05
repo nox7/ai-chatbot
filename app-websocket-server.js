@@ -4,7 +4,7 @@ const MathLib = require("./lib/math-lib.js");
 const Memory = require("./lib/memory.js");
 
 const thisHuman = new Brain();
-thisHuman.memory = new Memory();
+// thisHuman.memory = new Memory();
 
 setInterval(() => {
 	// Every second, run a general brain "tick" to
@@ -80,16 +80,16 @@ class CustomSocketServer{
 			CustomSocketServer.messageReceived(connection, message);
 		});
 
-		thisHuman.onHormonesUpdated(() => {
-			console.log("WebSocket server sending hormone updates");
-			let shipmentBackToClient = {
-				hormoneA:thisHuman.hormoneA,
-				hormoneB:thisHuman.hormoneB,
-				hormoneC:thisHuman.hormoneC,
-				hormoneX:thisHuman.hormoneX
-			}
-			connection.sendUTF(JSON.stringify(shipmentBackToClient));
-		});
+		// thisHuman.onHormonesUpdated(() => {
+		// 	console.log("WebSocket server sending hormone updates");
+		// 	let shipmentBackToClient = {
+		// 		hormoneA:thisHuman.hormoneA,
+		// 		hormoneB:thisHuman.hormoneB,
+		// 		hormoneC:thisHuman.hormoneC,
+		// 		hormoneX:thisHuman.hormoneX
+		// 	}
+		// 	connection.sendUTF(JSON.stringify(shipmentBackToClient));
+		// });
 	}
 
 	/**
