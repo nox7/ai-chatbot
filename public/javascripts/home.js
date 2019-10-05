@@ -1,4 +1,5 @@
 import SocketClient from "./_socket-client.js";
+import Renderer from "./_render.js";
 
 (function(){
 	let form = document.getElementById("send-form");
