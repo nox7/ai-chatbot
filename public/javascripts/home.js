@@ -9,7 +9,6 @@ import Renderer from "./_render.js";
 
 	let renderer = new Renderer();
 	renderer.renderInitialBrainMap();
-	renderer.createNeuronMesh();
 
 	function writeToChatLog(message){
 		let item = document.createElement("div");
@@ -54,10 +53,16 @@ import Renderer from "./_render.js";
 			let dataString = shipment.data;
 			let payload = JSON.parse(dataString);
 
-			document.getElementById("hormone-a-level").innerText = payload.hormoneA;
-			document.getElementById("hormone-b-level").innerText = payload.hormoneB;
-			document.getElementById("hormone-c-level").innerText = payload.hormoneC;
-			document.getElementById("hormone-x-level").innerText = payload.hormoneX;
+			if (!("event" in payload)){
+				console.log("No event in payload from WebSocket");
+			}
+
+			if (payload.event === "init"){
+				payload.neurons.forEach((neuron) => {
+					renderer.createNeuronMesh({x:neuron.x, y:neuron.y, z:neuron.z}, neuron.label, neuron.dendrites);
+				});
+			}
+
 		}
 	}
 })();

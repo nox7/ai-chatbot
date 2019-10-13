@@ -2,6 +2,7 @@ const WebSocketServer = require("websocket").server;
 const Brain = require("./lib/brain.js");
 const MathLib = require("./lib/math-lib.js");
 const Memory = require("./lib/memory.js");
+const LanguageProcessor = require("./lib/language-processor");
 
 const thisHuman = new Brain();
 // thisHuman.memory = new Memory();
@@ -76,6 +77,12 @@ class CustomSocketServer{
 
 	static connectionAccepted(connection){
 
+		// Send the neurons from the brain
+		connection.sendUTF(JSON.stringify({
+			"event":"init",
+			"neurons":thisHuman.neurons
+		}));
+
 		connection.on("message", (message) => {
 			CustomSocketServer.messageReceived(connection, message);
 		});
@@ -101,20 +108,23 @@ class CustomSocketServer{
 	*/
 	static messageReceived(connection, message){
 		if (message.type === "utf8"){
+			let data;
+
 			try{
-				let data = JSON.parse(message.utf8Data);
-				let payload = data.payload;
-				let speech = payload.spokenMessage;
-				let speakerMood = payload.speakerMood;
-				// TODO Eventually distinguish between direct, indirect, and inanimate speakers
-				// Use separate functions for that
-				thisHuman.hearNoiseFromAnimate_Direct(speech, "insert speaker here", speakerMood, () => {
-					// Done processing the information, what now?
-				});
+				data = JSON.parse(message.utf8Data);
 			}catch(err){
 				console.log("Failed parsing socket utf8 data to object: " + String(err));
 				console.log("Data attempted: " + String(message.utf8Data));
+
+				return;
 			}
+
+			let payload = data.payload;
+			let speech = payload.spokenMessage;
+			let speakerMood = payload.speakerMood;
+
+			const languageProcessor = new LanguageProcessor(thisHuman);
+			languageProcessor.process(speech);
 		}
 	}
 }
