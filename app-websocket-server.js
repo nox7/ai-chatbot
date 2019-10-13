@@ -78,7 +78,7 @@ class CustomSocketServer{
 		// Send the neurons from the brain
 		connection.sendUTF(JSON.stringify({
 			"event":"init",
-			"neurons":thisHuman.neurons
+			"neuralChunks":thisHuman.rawNeuralChunks
 		}));
 
 		connection.on("message", (message) => {
