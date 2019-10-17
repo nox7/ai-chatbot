@@ -143,7 +143,7 @@ class Renderer{
 		// Every 10 units apart
 		const lineGroup = new THREE.Group();
 		this.gridLineMaterial = new THREE.LineBasicMaterial({
-			color: 0xffffff
+			color: 0x3b527b
 		});
 
 		// X axis lines
