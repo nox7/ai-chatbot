@@ -60,7 +60,9 @@ class Renderer{
 		this.neuronMaterial = new THREE.MeshStandardMaterial({
 			// color: 0xff3333,
 			color: 0xa2a2a2,
-			flatShading:true
+			flatShading:true,
+			transparent:true,
+			opacity:0.45
 		});
 		this.languageNeuronMaterial = new THREE.MeshStandardMaterial({
 			color: 0x59b704,
