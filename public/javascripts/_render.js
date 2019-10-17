@@ -56,7 +56,7 @@ class Renderer{
 	* Creates the materials and geometries for meshes that will be created
 	*/
 	createMaterialsAndGeometries(){
-		this.neuronGeometry = new THREE.SphereBufferGeometry(3);
+		this.neuronGeometry = new THREE.SphereBufferGeometry(1);
 		this.neuronMaterial = new THREE.MeshStandardMaterial({
 			// color: 0xff3333,
 			color: 0xa2a2a2,
