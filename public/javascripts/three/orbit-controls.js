@@ -73,7 +73,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	this.enableKeys = true;
 
 	// The four arrow keys
-	this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40, W:87, S:83, A:65, D:68 };
+	this.keys = { LEFT: 37, UP: 38, RIGHT: 39, BOTTOM: 40 };
 
 	// Mouse buttons
 	this.mouseButtons = { LEFT: THREE.MOUSE.ROTATE, MIDDLE: THREE.MOUSE.DOLLY, RIGHT: THREE.MOUSE.PAN };
@@ -558,22 +558,22 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 		switch ( event.keyCode ) {
 
-			case scope.keys.W:
+			case scope.keys.UP:
 				pan( 0, scope.keyPanSpeed );
 				needsUpdate = true;
 				break;
 
-			case scope.keys.S:
+			case scope.keys.BOTTOM:
 				pan( 0, - scope.keyPanSpeed );
 				needsUpdate = true;
 				break;
 
-			case scope.keys.A:
+			case scope.keys.LEFT:
 				pan( scope.keyPanSpeed, 0 );
 				needsUpdate = true;
 				break;
 
-			case scope.keys.D:
+			case scope.keys.RIGHT:
 				pan( - scope.keyPanSpeed, 0 );
 				needsUpdate = true;
 				break;
