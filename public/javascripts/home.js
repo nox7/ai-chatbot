@@ -10,14 +10,28 @@ import Renderer from "./_render.js";
 	let renderer = new Renderer();
 	renderer.renderInitialBrainMap();
 
-	function writeToChatLog(message){
+	function writeToChatLog(author, message){
 		let item = document.createElement("div");
+		let authorItem = document.createElement("span");
 		let messageItem = document.createElement("span");
 
+		authorItem.innerHTML = "<strong>" + author + "</strong>: ";
 		messageItem.innerHTML = message;
+		item.append(authorItem);
 		item.append(messageItem);
 
-		chatLog.append(item);
+		chatLog.prepend(item);
+	}
+
+	function writeNotificationToChatLog(message){
+		let item = document.createElement("div");
+		let notificationItem = document.createElement("span");
+
+		notificationItem.classList.add("text-warning");
+		notificationItem.innerHTML = message;
+		item.append(notificationItem);
+
+		chatLog.prepend(item);
 	}
 
 	form.addEventListener("submit", (event) => {
@@ -29,7 +43,7 @@ import Renderer from "./_render.js";
 		if (sendingMessage.length > 0){
 			let fData = new FormData(form);
 
-			writeToChatLog(sendingMessage);
+			writeToChatLog("user", sendingMessage);
 			messageInput.value = "";
 
 			socket.send(
@@ -63,6 +77,20 @@ import Renderer from "./_render.js";
 						renderer.createNeuronMesh({x:neuron.x, y:neuron.y, z:neuron.z}, neuron.label, neuron.dendrites);
 					});
 				});
+
+				payload.messageHistory.forEach( message => {
+					if (message.type === "message"){
+						writeToChatLog(message.author, message.message);
+					}else if (message.type === "notification"){
+						writeNotificationToChatLog(message.message);
+					}
+				});
+			}else if (payload.event === "incomingMessage"){
+				if (payload.messageType === "message"){
+					writeToChatLog(payload.author, payload.message);
+				}else if (payload.messageType === "notification"){
+					writeNotificationToChatLog(payload.message);
+				}
 			}
 
 		}

@@ -2,39 +2,11 @@ const WebSocketServer = require("websocket").server;
 const Brain = require("./lib/brain.js");
 const MathLib = require("./lib/math-lib.js");
 const LanguageProcessor = require("./lib/language-processor");
+const MessageHistory = require("./lib/message-history");
 
+
+const history = new MessageHistory();
 const thisHuman = new Brain();
-
-setInterval(() => {
-	// Every second, run a general brain "tick" to
-	// review memories and current emotions/hormones
-	// and adjust/modify them based on recent events or feelings
-	// or "think" by attempting to discover connections between known
-	// facts or words
-
-	// When emotions are high, this process should also create more receptors,
-	// as this is also part of "maturing"
-	// When this robot experiences a lot of emotions that cause a lot of receptors,
-	// sometimes this can result in desensitization in some people (robots)
-
-	// Use artifical parts of body to "consume" hormones
-	// When those parts desire that hormone, the bot acts accordingly
-
-	// TODO Move this into the brain's constructor
-
-	// If no speech within 30s - 60s, then begin hormonal consumption (equilibrium attempt)
-	if (thisHuman.lastDirectSpeechInteraction > 0){
-		// console.log(thisHuman.lastDirectSpeechInteraction);
-		if (thisHuman.hormoneA > 0 || thisHuman.hormoneB > 0 || thisHuman.hormoneC > 0 || thisHuman.hormoneX > 0){
-			//let chosenTimeAgoComparisonThreshold = (new Date()).getTime() - MathLib.getRandomNumber(1000,5000);
-			let chosenTimeAgoComparisonThreshold = (new Date()).getTime() - MathLib.getRandomNumber(30000, 60000);
-			if (thisHuman.lastDirectSpeechInteraction <= chosenTimeAgoComparisonThreshold && thisHuman.lastHormoneConsumption <= chosenTimeAgoComparisonThreshold){
-				console.log("Beginning equilibrium attempt by consuming hormones");
-				thisHuman.consumeHormones();
-			}
-		}
-	}
-}, 10);
 
 class CustomSocketServer{
 	constructor(httpServer){
@@ -78,7 +50,8 @@ class CustomSocketServer{
 		// Send the neurons from the brain
 		connection.sendUTF(JSON.stringify({
 			"event":"init",
-			"neuralChunks":thisHuman.rawNeuralChunks
+			"neuralChunks":thisHuman.rawNeuralChunks,
+			"messageHistory":history.getHistory()
 		}));
 
 		connection.on("message", (message) => {
@@ -113,15 +86,32 @@ class CustomSocketServer{
 			}catch(err){
 				console.log("Failed parsing socket utf8 data to object: " + String(err));
 				console.log("Data attempted: " + String(message.utf8Data));
-
 				return;
 			}
 
 			let payload = data.payload;
-			let speech = payload.spokenMessage;
 			let speakerMood = payload.speakerMood;
+			let speech = payload.spokenMessage;
+
+			// Sanitize the input
+			// Remove tabs, news lines, returns
+			speech = speech.replace(/[\n\t\r]/, "");
+
+			// Was the message too long?
+			if (speech.length > 75){
+				const notifMessage = "Message too long - keep your message under 200 characters";
+				history.addNotificationToHistory(notifMessage, (new Date()).getTime());
+				connection.sendUTF(JSON.stringify({
+					"event":"incomingMessage",
+					"messageType":"notification",
+					"message":notifMessage
+				}));
+				return;
+			}
 
 			const languageProcessor = new LanguageProcessor(thisHuman);
+
+			history.addMessageToHistory("user", speech, (new Date()).getTime());
 			languageProcessor.process(speech);
 		}
 	}
