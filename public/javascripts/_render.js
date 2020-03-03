@@ -100,14 +100,20 @@ class Renderer{
 			dendrites.forEach( (dendriteData) => {
 				let fromPosition = dendriteData.fromNeuronPosition;
 				let toPosition = dendriteData.toConnectionPosition;
+				let strength = dendriteData.strength;
+				let distance = Math.sqrt(Math.pow(fromPosition.x - toPosition.x, 2) + Math.pow(fromPosition.y - toPosition.y, 2) + Math.pow(fromPosition.z - toPosition.z, 2));
 
-				let lineGeometry = new THREE.Geometry();
-				lineGeometry.vertices.push(
-					new THREE.Vector3(fromPosition.x, fromPosition.y, fromPosition.z),
-					new THREE.Vector3(toPosition.x, toPosition.y, toPosition.z),
-				)
-				const Line = new THREE.Line(lineGeometry);
-				NeuronGroup.add(Line);
+				const BoxGeo = new THREE.BoxGeometry(strength/15, strength/15, distance);
+				const BoxMaterial = new THREE.MeshBasicMaterial({
+					color:'#0000ff'
+				});
+				const Rectangle = new THREE.Mesh(BoxGeo, BoxMaterial);
+				const posToLookAt = new THREE.Vector3(toPosition.x, toPosition.y, toPosition.z);
+				const startingPos = (new THREE.Vector3()).lerpVectors(new THREE.Vector3(fromPosition.x, fromPosition.y, fromPosition.z), new THREE.Vector3(toPosition.x, toPosition.y, toPosition.z), 0.5);
+
+				Rectangle.position.set(startingPos.x, startingPos.y, startingPos.z);
+				Rectangle.lookAt(posToLookAt);
+				NeuronGroup.add(Rectangle);
 			});
 		}
 
