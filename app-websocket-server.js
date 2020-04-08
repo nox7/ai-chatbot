@@ -1,4 +1,7 @@
 const WebSocketServer = require("websocket").server;
+const Android = require("./lib/android/android");
+
+let droid = new Android("Sapphire");
 
 class CustomSocketServer{
 	constructor(httpServer){
@@ -69,6 +72,7 @@ class CustomSocketServer{
 				if (evt === "message"){
 					const message = payload.message;
 					console.log(`Received - ${message}`);
+					droid.digestMessage(message);
 				}
 			}catch(err){
 				console.log("Failed parsing socket utf8 data to object: " + String(err));
