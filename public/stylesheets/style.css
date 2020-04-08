@@ -1,0 +1,15 @@
+.emote-button{
+	border:none;
+	outline:none;
+	background:none;
+	font-size:64px;
+	opacity:0.35;
+}
+
+.emote-button:active, .emote-button:focus{
+	outline:none;
+}
+
+.emote-button:hover, .emote-button.selected{
+	opacity:1;
+}

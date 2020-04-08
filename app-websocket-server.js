@@ -71,8 +71,11 @@ class CustomSocketServer{
 				const evt = payload.event;
 				if (evt === "message"){
 					const message = payload.message;
-					console.log(`Received - ${message}`);
-					droid.digestMessage(message);
+					const tone = payload.tone;
+
+					console.log(`Received - ${message} in tone "${tone}"`);
+
+					droid.digestMessage(message, tone);
 				}
 			}catch(err){
 				console.log("Failed parsing socket utf8 data to object: " + String(err));

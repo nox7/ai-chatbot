@@ -4,6 +4,27 @@ import ChatLog from "./_chat-log.js";
 (() => {
 	const socket = new SocketClient();
 	const chatLog = new ChatLog(document.querySelector("#log-container"));
+	const emoteButtons = document.querySelectorAll(".emote-button");
+	const toneInput = document.querySelector("#tone");
+
+	for (let btn of emoteButtons){
+		btn.addEventListener("click", () => {
+			let currentlySelectedButton = document.querySelector(".emote-button.selected");
+			if (currentlySelectedButton !== null){
+				if (currentlySelectedButton !== btn){
+					currentlySelectedButton.classList.remove("selected");
+					btn.classList.add("selected");
+					toneInput.value = btn.getAttribute("tone");
+				}else{
+					btn.classList.remove("selected");
+					toneInput.value = "";
+				}
+			}else{
+				btn.classList.add("selected");
+				toneInput.value = btn.getAttribute("tone");
+			}
+		});
+	}
 
 	document.querySelector("#send-form").addEventListener("submit", e => {
 		e.preventDefault();
@@ -12,13 +33,16 @@ import ChatLog from "./_chat-log.js";
 		const message = input.value.trim();
 
 		if (message.length > 0){
-			input.value = "";
-			chatLog.addMessage(message);
+			if (toneInput.value !== ""){
+				input.value = "";
+				chatLog.addMessage(message);
 
-			socket.send(JSON.stringify({
-				event:"message",
-				message:message
-			}));
+				socket.send(JSON.stringify({
+					event:"message",
+					message:message,
+					tone:toneInput.value
+				}));
+			}
 		}
 	});
 

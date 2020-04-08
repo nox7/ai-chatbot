@@ -13,9 +13,34 @@
 				Begin chatting with natural intelligence
 			</p>
 			<form id="send-form">
+				<input type="hidden" id="tone">
 				<div class="form-group">
 					<label>Speak to it</label>
 					<input id="input-message" type="text" class="form-control">
+				</div>
+				<div class="form-group">
+					<div class="d-flex align-items-center">
+						<div class="emote-button-container">
+							<button tone="happy" type="button" class="emote-button">
+								😄
+							</button>
+						</div>
+						<div class="emote-button-container">
+							<button tone="mad" type="button" class="emote-button">
+								😡
+							</button>
+						</div>
+						<div class="emote-button-container">
+							<button tone="sad" type="button" class="emote-button">
+								😥
+							</button>
+						</div>
+						<div class="emote-button-container">
+							<button tone="confused" type="button" class="emote-button">
+								🤔
+							</button>
+						</div>
+					</div>
 				</div>
 				<button type="submit" class="btn btn-primary px-5">Send</button>
 			</form>
