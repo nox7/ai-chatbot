@@ -64,6 +64,12 @@ class CustomSocketServer{
 
 			try{
 				data = JSON.parse(message.utf8Data);
+				const payload = JSON.parse(data.payload);
+				const evt = payload.event;
+				if (evt === "message"){
+					const message = payload.message;
+					console.log(`Received - ${message}`);
+				}
 			}catch(err){
 				console.log("Failed parsing socket utf8 data to object: " + String(err));
 				console.log("Data attempted: " + String(message.utf8Data));
