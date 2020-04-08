@@ -1,143 +1,17 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Natural Intelligence Chat Bot</title>
+		<title>Desirable - Artificial Humanity</title>
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 		<link rel="stylesheet" href="/stylesheets/style.css" crossorigin="anonymous">
-		<script defer src="/javascripts/three/three.min.js"></script>
-		<script defer src="/javascripts/three/orbit-controls.js"></script>
 		<script type="module" defer src="/javascripts/home.js"></script>
 	</head>
 	<body>
 		<div class="p-5">
-			<div id="brain-container" style="width:100%; height:600px;">
-			</div>
 			<h1>Natural Intelligence Chat Bot</h1>
 			<p>
 				Begin chatting with natural intelligence
 			</p>
-			<div class="container-fluid">
-				<form id="send-form" class="row">
-					<div class="col-6">
-						<div>
-							<div>
-								<input type="text" name="message" id="message-input">
-								<button type="submit">Send</button>
-							</div>
-						</div>
-						<div id="chat-log">
-
-						</div>
-					</div>
-					<div class="col">
-						<div>
-							<h3>What is your mood?</h3>
-							<p>
-								<small>This is important to relay to the robot so it can learn and respond accordingly</small>
-							</p>
-							<div>
-								<div class="form-group">
-									<input checked id="mood-neutral" type="radio" name="speaker-mood" value="neutral">
-									<label for="mood-neutral">😶 Neutral</label>
-								</div>
-								<div class="form-group">
-									<input id="mood-happy" type="radio" name="speaker-mood" value="happy">
-									<label for="mood-happy">😄 Happy</label>
-								</div>
-								<div class="form-group">
-									<input id="mood-sad" type="radio" name="speaker-mood" value="sad">
-									<label for="mood-sad">☹ Sad</label>
-								</div>
-								<div class="form-group">
-									<input id="mood-mad" type="radio" name="speaker-mood" value="mad">
-									<label for="mood-mad">😤 Mad</label>
-								</div>
-							</div>
-						</div>
-					</div>
-				</form>
-				<div class="row">
-					<div class="col-12">
-						<h2>Robot's brain stats</h2>
-						<hr>
-						<div class="row">
-							<div class="col">
-								<p>
-									What are the current levels of each hormone running in the robot's stream right now (attached or not attached to a receptor)
-								</p>
-								<hr>
-								<p>
-									<strong>Hormone A: </strong><span id="hormone-a-level">0</span>
-									<span>- </span><span>Responsible for positive feelings (causes curiosity and determination)</span>
-								</p>
-								<p>
-									<strong>Hormone B: </strong><span id="hormone-b-level">0</span>
-									<span>- </span><span>Responsible for negative feelings</span>
-								</p>
-								<p>
-									<strong>Hormone C: </strong><span id="hormone-c-level">0</span>
-									<span>- </span><span>Responsible feelings of surprise, need-to-act (B + C can be fear)</span>
-								</p>
-								<p>
-									<strong>Hormone X: </strong><span id="hormone-x-level">0</span>
-									<span>- </span><span>Responsible for feelings of belonging/attraction (affected by A &amp; B)</span>
-								</p>
-							</div>
-							<div class="col">
-								<p>
-									How susceptible is this robot to certain hormones? The number of receptors the robot's brain develops can affect its individuality, mood swings, and responses
-								</p>
-								<hr>
-								<p>
-									<strong>A Receptors: </strong><span id="hormone-a-receptors">0</span>
-									<span>- </span><span>How many spots to receive hormone A?</span>
-								</p>
-								<p>
-									<strong>B Receptors: </strong><span id="hormone-a-receptors">0</span>
-									<span>- </span><span>How many spots to receive hormone B?</span>
-								</p>
-								<p>
-									<strong>C Receptors: </strong><span id="hormone-a-receptors">0</span>
-									<span>- </span><span>How many spots to receive hormone C?</span>
-								</p>
-								<p>
-									<strong>X Receptors: </strong><span id="hormone-a-receptors">0</span>
-									<span>- </span><span>How many spots to receive hormone X?</span>
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-				<hr>
-				<div class="row">
-					<div class="col-12">
-						<div class="row">
-							<div class="col">
-								<p>
-									Current cravings for a hormone - driving the robot to desire certain hormones and find ways to obtain them to satisfy the urges for that hormone
-								</p>
-								<hr>
-								<p>
-									<strong>Hormone A Crave: </strong><span id="hormone-a-crave">0</span>
-									<span>- </span><span>Body's craving for positive feelings</span>
-								</p>
-								<p>
-									<strong>Hormone B Crave: </strong><span id="hormone-b-crave">0</span>
-									<span>- </span><span>Body's craving for negative feelings</span>
-								</p>
-								<p>
-									<strong>Hormone C Crave: </strong><span id="hormone-c-crave">0</span>
-									<span>- </span><span> Body's craving for adrenaline-like feelings (rare)</span>
-								</p>
-								<p>
-									<strong>Hormone X Crave: </strong><span id="hormone-x-crave">0</span>
-									<span>- </span><span>Body's craving for attention, belonging, attraction</span>
-								</p>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 	</body>
 </html>

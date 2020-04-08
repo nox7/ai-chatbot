@@ -1,12 +1,4 @@
 const WebSocketServer = require("websocket").server;
-const Brain = require("./lib/brain.js");
-const MathLib = require("./lib/math-lib.js");
-const LanguageProcessor = require("./lib/language-processor");
-const MessageHistory = require("./lib/message-history");
-
-
-const history = new MessageHistory();
-const thisHuman = new Brain();
 
 class CustomSocketServer{
 	constructor(httpServer){
@@ -48,26 +40,15 @@ class CustomSocketServer{
 	static connectionAccepted(connection){
 
 		// Send the neurons from the brain
-		connection.sendUTF(JSON.stringify({
-			"event":"init",
-			"neuralChunks":thisHuman.rawNeuralChunks,
-			"messageHistory":history.getHistory()
-		}));
+		// connection.sendUTF(JSON.stringify({
+		// 	"event":"init",
+		// 	"neuralChunks":thisHuman.rawNeuralChunks,
+		// 	"messageHistory":history.getHistory()
+		// }));
 
 		connection.on("message", (message) => {
 			CustomSocketServer.messageReceived(connection, message);
 		});
-
-		// thisHuman.onHormonesUpdated(() => {
-		// 	console.log("WebSocket server sending hormone updates");
-		// 	let shipmentBackToClient = {
-		// 		hormoneA:thisHuman.hormoneA,
-		// 		hormoneB:thisHuman.hormoneB,
-		// 		hormoneC:thisHuman.hormoneC,
-		// 		hormoneX:thisHuman.hormoneX
-		// 	}
-		// 	connection.sendUTF(JSON.stringify(shipmentBackToClient));
-		// });
 	}
 
 	/**
@@ -88,31 +69,6 @@ class CustomSocketServer{
 				console.log("Data attempted: " + String(message.utf8Data));
 				return;
 			}
-
-			let payload = data.payload;
-			let speakerMood = payload.speakerMood;
-			let speech = payload.spokenMessage;
-
-			// Sanitize the input
-			// Remove tabs, news lines, returns
-			speech = speech.replace(/[\n\t\r]/, "");
-
-			// Was the message too long?
-			if (speech.length > 75){
-				const notifMessage = "Message too long - keep your message under 200 characters";
-				history.addNotificationToHistory(notifMessage, (new Date()).getTime());
-				connection.sendUTF(JSON.stringify({
-					"event":"incomingMessage",
-					"messageType":"notification",
-					"message":notifMessage
-				}));
-				return;
-			}
-
-			const languageProcessor = new LanguageProcessor(thisHuman);
-
-			history.addMessageToHistory("user", speech, (new Date()).getTime());
-			languageProcessor.process(speech);
 		}
 	}
 }
